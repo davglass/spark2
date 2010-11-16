@@ -531,7 +531,7 @@ function start() {
     
     if (watch) {
         log('Watching file: ' + getAppPath(true));
-        fs.watchFile(getAppPath(true), watchFile);
+        fs.watchFile(getAppPath(true), {interval : 100}, watchFile);
     }
 }
 
