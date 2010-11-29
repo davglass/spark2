@@ -60,6 +60,7 @@ var spawn;
 var pidfile;
 var accesslog;
 var watch;
+var debugApp;
 
 /**
  * Colored terminal output.
@@ -103,6 +104,7 @@ var usage = ''
     + '  -g, --group ID|NAME  Change group with setgid()\n'
     + '  -v, --verbose        Enable verbose output\n'
     + '  -V, --version        Output spark2 version\n'
+    + '  -D, --debug          Enable debug mode on app child process\n'
     + '  -K, --no-color       Suppress colored terminal output\n'
     + '  -h, --help           Outputy help information\n'
     + '  --ENV VAL            Sets the given spark2 environment variable\n'
@@ -321,6 +323,9 @@ function spawnChild() {
     var args = [process.argv[1], '--child'];
     if (comment) {
         args.push('--comment', comment);
+    }
+    if (debugApp) {
+        args.unshift('--debug');
     }
 
     // Spawn the child process
@@ -576,6 +581,10 @@ function parseArguments(args, cmd) {
                 break;
             case '--comment':
               comment = requireArg('--comment');
+              break;
+            case '-D':
+            case '--debug':
+              debugApp = true;
               break;
             case '--child':
               cmd = "worker";
