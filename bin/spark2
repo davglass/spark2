@@ -172,7 +172,9 @@ function abort(msg, code) {
  */
 
 function loadConfig(file) {
-    file = process.cwd() + '/' + file;
+    if (file[0] !== '/') {
+        file = process.cwd() + '/' + file;
+    }
     log('loading config [bold]{`' + file + "'}");
     var args = [],
         config = require(file);
@@ -323,7 +325,7 @@ function startWorker() {
 function spawnChild() {
     // Create an unnamed unix socket to pass the fd to the child.
     var fds = netBinding.socketpair();
-    
+
     // Collect the child process arguments
     var args = [process.argv[1], '--child'];
     if (comment) {
@@ -367,7 +369,7 @@ function spawnChild() {
             util.print(data);
         }
     });
-    
+
 
     return child;
 }
@@ -537,9 +539,9 @@ function start() {
         process.addListener('SIGCONT', respawnAll)
 
     }
-    
+
     changeUser();
-    
+
     if (watch) {
         var cmd = 'find ' + watch + ' -name "*.js" -o -name "*.coffee"';
         log('find: ' + cmd);
