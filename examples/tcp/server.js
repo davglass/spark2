@@ -4,7 +4,7 @@
  */
 
 var net = require('net'),
-    sys = require('sys');
+    util = require('util');
 
 module.exports = net.createServer(function(stream){
     stream.addListener('data', function(chunk){
